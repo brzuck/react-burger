@@ -21,10 +21,16 @@ export const authFail = (error) => {
     };
 };
 
-export const auth = (email, password) => {
+export const auth = (email, password, isSignup) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC71y7alXjKY9JuFIf0AYlDKH8YYUbIpHw', {
+
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC71y7alXjKY9JuFIf0AYlDKH8YYUbIpHw';
+        if (!isSignup) {
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC71y7alXjKY9JuFIf0AYlDKH8YYUbIpHw';
+        }
+
+        axios.post(url, {
             email,
             password,
             returnSecureToken: true
